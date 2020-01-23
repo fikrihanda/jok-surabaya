@@ -1,0 +1,61 @@
+{
+  "name": "jok-surabaya",
+  "private": true,
+  "version": "0.0.1-beta",
+  "description": "Aplikasi Management ERP dan POS",
+  "keywords": [
+    "erp",
+    "pos",
+    "sails",
+    "nuxt"
+  ],
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.26",
+    "@fortawesome/free-brands-svg-icons": "^5.12.0",
+    "@fortawesome/free-regular-svg-icons": "^5.12.0",
+    "@fortawesome/free-solid-svg-icons": "^5.12.0",
+    "@fortawesome/vue-fontawesome": "^0.1.9",
+    "@nuxtjs/axios": "^5.9.3",
+    "@sailshq/lodash": "^3.10.3",
+    "bcryptjs": "^2.4.3",
+    "bootstrap": "^4.4.1",
+    "bootstrap-vue": "^2.2.2",
+    "flaverr": "^1.10.0",
+    "jquery": "^3.4.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "numeral": "^2.0.6",
+    "nuxt": "^2.11.0",
+    "sails": "^1.2.3",
+    "sails-hook-orm": "^2.1.1",
+    "sails-hook-sockets": "^2.0.0",
+    "sails-hook-uploads": "^0.4.3",
+    "sails-mysql": "^1.0.1",
+    "secure-ls": "^1.2.6",
+    "vue-fragment": "^1.5.1",
+    "vue-notification": "^1.3.20",
+    "vuelidate": "^0.7.5",
+    "vuetable-2": "^1.7.5",
+    "vuex-persistedstate": "^2.7.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "eslint": "5.16.0",
+    "node-sass": "^4.13.1",
+    "nodemon": "^2.0.2",
+    "sass-loader": "^8.0.2"
+  },
+  "scripts": {
+    "start": "nodemon node app.js"
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/anonymous node/sails user/jok-surabaya.git"
+  },
+  "author": "Fikri Handa",
+  "license": "MIT",
+  "engines": {
+    "node": "^13.5"
+  }
+}
