@@ -133,3 +133,4 @@ lib-cov
 *.pid
 config/datastores.js
 .nuxt
+ssl

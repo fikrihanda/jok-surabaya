@@ -1,0 +1,15 @@
+.guest {
+  display: flex;
+  min-height: 100vh;
+  background-color: $light;
+}
+
+.guest-content {
+  margin: auto;
+  flex: 0 0 90%;
+  max-width: 90%;
+  @include media-breakpoint-up(sm) {
+    flex: 0 0 350px;
+    max-width: 350px;
+  }
+}

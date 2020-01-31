@@ -1,0 +1,23 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git/**/*",
+    ".tmp/**/*",
+    ".nuxt/**/*",
+    "client/**/*",
+    "node_modules/**/*",
+    "ssl/**/*",
+    "views/**/*",
+    ".editorconfig",
+    ".eslintignore",
+    ".eslintrc",
+    ".gitignore",
+    "README.md"
+  ],
+  "watch": [
+    "api/**/*",
+    "config/**/*"
+  ],
+  "verbose": true,
+  "ext": "js,json"
+}
