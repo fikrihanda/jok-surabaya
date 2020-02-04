@@ -4,6 +4,9 @@
       <nav-header/>
       <div class="home-container">
         <nav-sidebar/>
+        <div class="home-content">
+          <nuxt />
+        </div>
       </div>
     </div>
     <notif/>

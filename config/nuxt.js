@@ -15,7 +15,10 @@ module.exports.nuxt = {
       {'http-equiv': 'X-UA-Compatible', content: 'ie=edge'}
     ]
   },
-  loading: {},
+  loading: {
+    color: '#0069d9',
+    failedColor: '#dc3545'
+  },
   router: {
     middleware: ['check-auth']
   },
