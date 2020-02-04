@@ -9,6 +9,7 @@
 
 <script>
   import Notif from '@/components/common/notif'
+
   export default {
     components: {
       Notif

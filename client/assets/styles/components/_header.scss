@@ -1,0 +1,6 @@
+.header-btn {
+  color:  rgba(#fff, 0.5);
+  @include hover-focus {
+    color: rgba(#fff, 0.75);
+  }
+}
