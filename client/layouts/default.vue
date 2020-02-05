@@ -1,10 +1,10 @@
 <template>
   <fragment>
-    <div class="home">
-      <nav-header/>
+    <div :class="['home', toggled && 'toggled']">
+      <nav-header @on-toggled="onToggled"/>
       <div class="home-container">
         <nav-sidebar/>
-        <div class="home-content">
+        <div class="home-content" ref="content">
           <nuxt />
         </div>
       </div>
@@ -23,6 +23,30 @@
       Notif,
       NavHeader,
       NavSidebar
+    },
+    data() {
+      return {
+        toggled: false
+      }
+    },
+    methods: {
+      onToggled() {
+        this.toggled = !this.toggled
+      },
+      windowClick(e) {
+        let winWidth = $(window).width()
+        if (this.$refs.content.contains(e.target)) {
+          if (winWidth < 992) {
+            if (this.toggled) this.toggled = false
+          }
+        }
+      }
+    },
+    mounted() {
+      $(window).on('click', this.windowClick)
+    },
+    beforeDestroy() {
+      $(window).off('click', this.windowClick)
     }
   }
 </script>

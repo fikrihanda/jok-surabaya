@@ -2,11 +2,11 @@
   position: fixed;
   width: 225px;
   height: calc(100vh - 56px);
-  z-index: 1025;
   background-color: #212529;
   transform: translateX(-225px);
   transition: transform .15s;
   overflow-y: auto;
+  z-index: 1025;
   @include media-breakpoint-up(lg) {
     transform: translateX(0);
   }

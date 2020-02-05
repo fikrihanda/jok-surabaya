@@ -1,4 +1,46 @@
+.home {
+  &.toggled {
+    .sidebar {
+      transform: translateX(0);
+      @include media-breakpoint-up(lg) {
+        transform: translateX(-225px);
+      }
+    }
+    .home-content {
+      &::before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: #000;
+        opacity: .5;
+        z-index: 1024;
+      }
+      @include media-breakpoint-up(lg) {
+        margin-left: 0;
+        width: 100%;
+        &::before {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 .home-container {
   position: relative;
   margin-top: 56px;
+}
+
+.home-content {
+  position: relative;
+  min-height: calc(100vh - 56px);
+  transition: margin-left .15s, width .15s;
+  @include media-breakpoint-up(lg) {
+    margin-left: 225px;
+    width: calc(100% - 225px);
+  }
 }

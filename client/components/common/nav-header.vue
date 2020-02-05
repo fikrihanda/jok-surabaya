@@ -1,7 +1,7 @@
 <template>
   <b-navbar type="dark" variant="dark" fixed="top" class="header">
     <b-navbar-brand to="/">Jok Surabaya</b-navbar-brand>
-    <b-button variant="link" size="sm" class="order-1 order-lg-0 header-btn">
+    <b-button variant="link" size="sm" class="order-1 order-lg-0 header-btn" @click="$emit('on-toggled')">
       <fa-layer class="fa-fw">
         <fa :icon="['fas', 'bars']" />
       </fa-layer>
