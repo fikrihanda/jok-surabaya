@@ -3,7 +3,6 @@ module.exports = {
   attributes: {
     nama_awal: 'string',
     nama_akhir: 'string',
-    avatar: 'string',
     alamat: 'string',
     telepon: 'json',
     karyawan: {

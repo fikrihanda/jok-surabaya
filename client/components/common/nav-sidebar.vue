@@ -23,8 +23,8 @@
 </template>
 
 <script>
-  import WithSubs from '@/components/sidebar/WithSubs'
-  import WithoutSubs from '@/components/sidebar/WithoutSubs'
+  import WithSubs from '@/components/sidebar/with-subs'
+  import WithoutSubs from '@/components/sidebar/without-subs'
 
   export default {
     components: {

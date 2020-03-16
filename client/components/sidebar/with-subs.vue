@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import SubsMenu from '@/components/sidebar/SubsMenu'
+  import SubsMenu from '@/components/sidebar/subs-menu'
 
   export default {
     props: ['menu', 'index'],

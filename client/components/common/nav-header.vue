@@ -3,7 +3,7 @@
     <b-navbar-brand to="/">Jok Surabaya</b-navbar-brand>
     <b-button variant="link" size="sm" class="order-1 order-lg-0 header-btn" @click="$emit('on-toggled')">
       <fa-layer class="fa-fw">
-        <fa :icon="['fas', 'bars']" />
+        <fa :icon="['fas', 'bars']"/>
       </fa-layer>
     </b-button>
     <b-navbar-nav class="ml-auto">
@@ -13,14 +13,14 @@
         </template>
         <b-dropdown-item to="/setting">
           <fa-layer class="fa-fw">
-            <fa :icon="['fas', 'cog']" />
+            <fa :icon="['fas', 'cog']"/>
           </fa-layer>
           Setting
         </b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
         <b-dropdown-item @click="logout">
           <fa-layer class="fa-fw">
-            <fa :icon="['fas', 'sign-out-alt']" />
+            <fa :icon="['fas', 'sign-out-alt']"/>
           </fa-layer>
           Log Out
         </b-dropdown-item>

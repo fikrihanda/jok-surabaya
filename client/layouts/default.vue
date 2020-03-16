@@ -5,7 +5,9 @@
       <div class="home-container">
         <nav-sidebar/>
         <div class="home-content" ref="content">
-          <nuxt />
+          <div class="container-fluid" style="padding-top: 0.1px">
+            <nuxt />
+          </div>
         </div>
       </div>
     </div>

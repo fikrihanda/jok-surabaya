@@ -32,7 +32,8 @@ module.exports.nuxt = {
     '@/plugins/vue-fragment',
     '@/plugins/vuelidate',
     '@/plugins/vue-notification',
-    '@/plugins/fontawesome'
+    '@/plugins/fontawesome',
+    '@/plugins/components'
   ],
   modules: [
     '@nuxtjs/axios',
