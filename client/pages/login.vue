@@ -17,17 +17,24 @@
                  v-model="$v.username.$model"></b-input>
       </b-input-group>
       <b-input-group>
-        <template v-slot:prepend>
+        <b-input-group-prepend>
           <b-input-group-text>
             <fa-layer class="fa-fw">
               <fa :icon="['fas', 'lock']"></fa>
             </fa-layer>
           </b-input-group-text>
-        </template>
-        <b-input type="password"
+        </b-input-group-prepend>
+        <b-input :type="typePassword ? 'password' : 'text'"
                  placeholder="Password"
                  :state="validPassword"
                  v-model="$v.password.$model"></b-input>
+        <b-input-group-append>
+          <b-button type="button" variant="primary" @click="typePassword = !typePassword">
+            <fa-layer class="fa-fw">
+              <fa :icon="['fas', typePassword ? 'eye' : 'eye-slash']" />
+            </fa-layer>
+          </b-button>
+        </b-input-group-append>
       </b-input-group>
     </b-card-body>
     <b-card-footer>
@@ -55,7 +62,8 @@
     data() {
       return {
         username: '',
-        password: ''
+        password: '',
+        typePassword: true
       }
     },
     validations: {
@@ -82,7 +90,7 @@
       async onSubmit() {
         try {
           this.$v.$touch()
-          if (this.$v.$error) return
+          if (this.$v.$invalid) return
           await this.$store.dispatch('authentication/signin', {
             username: this.username,
             password: this.password

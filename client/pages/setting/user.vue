@@ -6,17 +6,26 @@
     <b-card-body>
       <b-form-group label="Password"
                     label-for="password"
-                    description="Note: password harus memiliki huruf dan angka melebihi 5">
-        <b-input type="password"
-                 id="password"
-                 placeholder="Password"
-                 :state="validPassword"
-                 v-model="$v.password.$model"/>
-        <template v-if="!validPassword">
-          <b-form-invalid-feedback v-if="!$v.password.required">
+                    description="Note: password harus memiliki huruf dan huruf besar, angka, special character melebihi 5">
+        <b-input-group>
+          <b-input :type="typePassword ? 'password': 'text'"
+                   placeholder="Password"
+                   id="password"
+                   :state="validPassword"
+                   v-model="$v.password.$model"></b-input>
+          <b-input-group-append>
+            <b-button type="button" variant="primary" @click="typePassword = !typePassword">
+              <fa-layer class="fa-fw">
+                <fa :icon="['fas', typePassword ? 'eye' : 'eye-slash']"/>
+              </fa-layer>
+            </b-button>
+          </b-input-group-append>
+        </b-input-group>
+        <template v-if="$v.password.$error">
+          <b-form-invalid-feedback v-if="!$v.password.required" class="d-block">
             Silahkan isi password anda
           </b-form-invalid-feedback>
-          <b-form-invalid-feedback v-if="!$v.password.requirment">
+          <b-form-invalid-feedback v-if="!$v.password.requirment" class="d-block">
             Password anda tidak memnuhi requirment
           </b-form-invalid-feedback>
         </template>
@@ -29,7 +38,7 @@
                  placeholder="Konfirmasi Password"
                  :state="validKonpass"
                  v-model="$v.konpass.$model"/>
-        <template v-if="!validKonpass">
+        <template v-if="$v.konpass.$error">
           <b-form-invalid-feedback v-if="!$v.konpass.sameAs">
             Konfirmasi password tidak sama dengan password
           </b-form-invalid-feedback>
@@ -52,7 +61,9 @@
     data() {
       return {
         password: '',
-        konpass: ''
+        konpass: '',
+        typePassword: true,
+        typeKonpass: true
       }
     },
     validations: {
@@ -60,7 +71,7 @@
         required,
         requirment(val) {
           if (_.isEmpty(val)) return true
-          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{6,}$/.test(val)
+          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{5,}$/.test(val)
         }
       },
       konpass: {
@@ -90,9 +101,33 @@
       ])
     },
     methods: {
+      resetField() {
+        this.$v.$reset()
+        this.password = ''
+        this.konpass = ''
+      },
       async onSubmit() {
-        this.$v.$touch()
-        if (this.$v.$error) return
+        try {
+          this.$v.$touch()
+          if (this.$v.$invalid) return
+          await this.$store.dispatch('authentication/ganti', {
+            password: this.password,
+            method: 'user'
+          })
+          this.resetField()
+          this.$utils.notification({
+            title: 'Success',
+            type: 'success',
+            text: 'Berhasil update password anda'
+          })
+        } catch (err) {
+          this.resetField()
+          this.$utils.notification({
+            title: 'Error',
+            type: 'error',
+            text: err.message
+          })
+        }
       }
     }
   }

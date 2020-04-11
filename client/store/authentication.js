@@ -95,5 +95,15 @@ export const actions = {
       err = this.$utils.error(err)
       return Promise.reject(err)
     }
+  },
+  async ganti({commit}, data) {
+    try {
+      let info = await Auth.ganti(data)
+      if (data.method === 'data_diri') commit('setInfo', info)
+      return Promise.resolve()
+    } catch (err) {
+      err = this.$utils.error(err)
+      return Promise.reject(err)
+    }
   }
 }

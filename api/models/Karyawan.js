@@ -31,10 +31,20 @@ module.exports = {
       )
       valSet.password = await bcrypt.hash(valSet.password, 10)
       return done()
-    } catch (e) {
-      return done(
-        ErrorSrv(e)
-      )
+    } catch (err) {
+      err = ErrorSrv(err)
+      return done(err)
+    }
+  },
+  async beforeUpdate(valSet, done) {
+    try {
+      if (!_.isEmpty(valSet.password)) {
+        valSet.password = await bcrypt.hash(valSet.password, 10)
+      }
+      return done()
+    } catch (err) {
+      err = ErrorSrv(err)
+      return done(err)
     }
   }
 }

@@ -4,6 +4,30 @@
       Register
     </b-card-header>
     <b-card-body>
+      <b-form-group label="Nama Awal"
+                    label-for="nama_awal">
+        <b-input placeholder="Nama Awal"
+                 id="nama_awal"
+                 :state="validNamaAwal"
+                 v-model="$v.nama_awal.$model"></b-input>
+        <template v-if="$v.nama_awal.$error">
+          <b-form-invalid-feedback v-if="!$v.nama_awal.required">
+            Harus isi nama awal anda
+          </b-form-invalid-feedback>
+        </template>
+      </b-form-group>
+      <b-form-group label="Nama Akhir"
+                    label-for="nama_akhir">
+        <b-input placeholder="Nama Akhir"
+                 id="nama_akhir"
+                 :state="validNamaAkhir"
+                 v-model="$v.nama_akhir.$model"></b-input>
+        <template v-if="$v.nama_akhir.$error">
+          <b-form-invalid-feedback v-if="!$v.nama_akhir.required">
+            Harus isi nama akhir anda
+          </b-form-invalid-feedback>
+        </template>
+      </b-form-group>
       <b-form-group label="Username"
                     label-for="username">
         <b-input placeholder="Username"
@@ -20,43 +44,41 @@
         </template>
       </b-form-group>
       <b-form-group label="Password"
-                    label-for="password">
-        <b-input type="password"
-                 placeholder="Password"
-                 id="password"
-                 :state="validPassword"
-                 v-model="$v.password.$model"></b-input>
+                    label-for="password"
+                    description="Note: password harus memiliki huruf dan huruf besar, angka, special character melebihi 5">
+        <b-input-group>
+          <b-input :type="typePassword ? 'password': 'text'"
+                   placeholder="Password"
+                   id="password"
+                   :state="validPassword"
+                   v-model="$v.password.$model"></b-input>
+          <b-input-group-append>
+            <b-button type="button" variant="primary" @click="typePassword = !typePassword">
+              <fa-layer class="fa-fw">
+                <fa :icon="['fas', typePassword ? 'eye' : 'eye-slash']" />
+              </fa-layer>
+            </b-button>
+          </b-input-group-append>
+        </b-input-group>
         <template v-if="$v.password.$error">
-          <b-form-invalid-feedback v-if="!$v.password.required">
+          <b-form-invalid-feedback v-if="!$v.password.required" class="d-block">
             Harus isi password anda
           </b-form-invalid-feedback>
-          <b-form-invalid-feedback v-if="!$v.password.requirment">
+          <b-form-invalid-feedback v-if="!$v.password.requirment" class="d-block">
             Password anda tidak memnuhi requirment
           </b-form-invalid-feedback>
         </template>
       </b-form-group>
-      <b-form-group label="Nama Awal"
-                    label-for="nama_awal">
-        <b-input placeholder="Nama Awal"
-                 id="nama_awal"
-                 :state="validNamaAwal"
-                 v-model="$v.nama_awal.$model"></b-input>
-        <template v-if="$v.nama_awal.$error">
-          <b-form-invalid-feedback v-if="!$v.nama_awal.required">
-            Harus isi nama awal anda
-          </b-form-invalid-feedback>
-        </template>
-      </b-form-group>
       <b-form-group class="mb-0"
-                    label="Nama Akhir"
-                    label-for="nama_akhir">
-        <b-input placeholder="Nama Akhir"
-                 id="nama_akhir"
-                 :state="validNamaAkhir"
-                 v-model="$v.nama_akhir.$model"></b-input>
-        <template v-if="$v.nama_akhir.$error">
-          <b-form-invalid-feedback v-if="!$v.nama_akhir.required">
-            Harus isi nama akhir anda
+                    label="Pemilik"
+                    label-for="pemilik">
+        <b-input placeholder="Pemilik"
+                 id="pemilik"
+                 :state="validPemilik"
+                 v-model="$v.pemilik.$model"></b-input>
+        <template v-if="$v.pemilik.$error">
+          <b-form-invalid-feedback v-if="!$v.pemilik.required">
+            Harus isi pemilik pass code anda
           </b-form-invalid-feedback>
         </template>
       </b-form-group>
@@ -89,7 +111,9 @@
         username: '',
         password: '',
         nama_awal: '',
-        nama_akhir: ''
+        nama_akhir: '',
+        pemilik: '',
+        typePassword: true
       }
     },
     validations: {
@@ -111,11 +135,12 @@
         required,
         requirment(val) {
           if (_.isEmpty(val)) return true
-          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{6,}$/.test(val)
+          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{5,}$/.test(val)
         }
       },
       nama_awal: {required},
-      nama_akhir: {required}
+      nama_akhir: {required},
+      pemilik: {required}
     },
     computed: {
       validUsername() {
@@ -145,18 +170,31 @@
           return !nama_akhir.$error && nama_akhir.required
         }
         return null
+      },
+      validPemilik() {
+        let {pemilik} = this.$v
+        if (pemilik.$dirty) {
+          return !pemilik.$error && pemilik.required
+        }
+        return null
       }
     },
     methods: {
       async onSubmit() {
         try {
           this.$v.$touch()
-          if (this.$v.$error) return
+          if (this.$v.$invalid) return
+          if (this.pemilik !== 'waluyo7777') return this.$utils.notification({
+            title: 'Error',
+            type: 'error',
+            text: 'Anda bukan pemilik'
+          })
           await this.$store.dispatch('authentication/register', {
             username: this.username,
             password: this.password,
             nama_awal: this.nama_awal,
-            nama_akhir: this.nama_akhir
+            nama_akhir: this.nama_akhir,
+            roles: 'pemilik'
           })
           this.$router.push('/')
         } catch (err) {

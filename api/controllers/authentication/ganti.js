@@ -1,5 +1,3 @@
-const bcrypt = require('bcryptjs')
-
 module.exports = {
   friendlyName: 'Check username',
   description: 'Authentication check username',
@@ -38,22 +36,31 @@ module.exports = {
     },
     serverError: {
       responseType: 'serverErrorRes'
+    },
+    unauthorized: {
+      responseType: 'unauthorizedRes'
     }
   },
   fn: async function(inputs, exits) {
     try {
-      let {req} = this
+      let req = this.req
       let {method} = inputs
-      let findKar = await Karyawan.findOne(req.karyawan).intercept(err => ErrorSrv(err))
-      if (_.isEmpty(findKar)) return exits.badRequest(
+      let karyawan = await Karyawan.findOne(req.karyawan).intercept(err => ErrorSrv(err))
+      if (_.isEmpty(karyawan)) return exits.unauthorized(
         ErrorSrv({
           code: 'E_INVALID_TOKEN',
           name: 'invalidToken',
-          message: 'Karyawan tidak ada'
+          message: 'Token anda salah atau token tidak ada'
         })
       )
       if (method === 'user') {
-
+        let {password} = inputs
+        await Karyawan.updateOne({
+          id: karyawan.id
+        }).set({password}).intercept(err => ErrorSrv(err))
+        return exits.success({
+          success: true
+        })
       } else if (method === 'data_diri') {
 
       } else {
@@ -62,12 +69,12 @@ module.exports = {
             code: 'E_METHOD_NOTFOUND',
             name: 'methodNotFound',
             message: 'Method ganti tidak ada atau tidak di ketahui'
-          }).toJSON()
+          })
         )
       }
     } catch (err) {
       err = ErrorSrv(err)
-      return exits.serverError(err.toJSON())
+      return exits.serverError(err)
     }
   }
 }
