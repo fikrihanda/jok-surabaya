@@ -30,6 +30,9 @@
           <b-form-invalid-feedback v-if="!$v.password.required">
             Harus isi password anda
           </b-form-invalid-feedback>
+          <b-form-invalid-feedback v-if="!$v.password.requirment">
+            Password anda tidak memnuhi requirment
+          </b-form-invalid-feedback>
         </template>
       </b-form-group>
       <b-form-group label="Nama Awal"
@@ -104,7 +107,13 @@
           }
         }
       },
-      password: {required},
+      password: {
+        required,
+        requirment(val) {
+          if (_.isEmpty(val)) return true
+          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$^+=!*()@%&]).{6,}$/.test(val)
+        }
+      },
       nama_awal: {required},
       nama_akhir: {required}
     },
@@ -119,21 +128,21 @@
       validPassword() {
         let {password} = this.$v
         if (password.$dirty) {
-          return !password.$error && password.required
+          return !password.$error && (password.required && password.requirment)
         }
         return null
       },
       validNamaAwal() {
         let {nama_awal} = this.$v
         if (nama_awal.$dirty) {
-          return nama_awal.required
+          return !nama_awal.$error && nama_awal.required
         }
         return null
       },
       validNamaAkhir() {
         let {nama_akhir} = this.$v
         if (nama_akhir.$dirty) {
-          return nama_akhir.required
+          return !nama_akhir.$error && nama_akhir.required
         }
         return null
       }

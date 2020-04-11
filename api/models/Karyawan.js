@@ -19,10 +19,10 @@ module.exports = {
   },
   async beforeCreate(valSet, done) {
     try {
-      let findUser = await Karyawan.findOne({
+      let karyawan = await Karyawan.findOne({
         username: valSet.username
       }).intercept(err => ErrorSrv(err))
-      if (!_.isEmpty(findUser)) return done(
+      if (!_.isEmpty(karyawan)) return done(
         ErrorSrv({
           code: 'E_USER_FOUND',
           name: 'userFound',

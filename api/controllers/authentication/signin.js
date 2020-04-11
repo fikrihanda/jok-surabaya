@@ -29,39 +29,33 @@ module.exports = {
     }
   },
   fn: async function (inputs, exits) {
-    let config = sails.config.jwt
     try {
-      let find = await Karyawan.findOne({
-        username: inputs.username
+      let {username, password} = inputs
+      let karyawan = await Karyawan.findOne({
+        username
       }).intercept(err => ErrorSrv(err))
-      if (_.isEmpty(find)) {
-        return exits.notFound(
-          ErrorSrv({
-            code: 'E_USERNAME_NOTFOUND',
-            name: 'usernameNotFound',
-            message: 'Username tidak ada'
-          }).toJSON()
-        )
-      }
-      let check = await bcrypt.compare(inputs.password, find.password)
-      if (!check) {
-        return exits.notFound(
-          ErrorSrv({
-            code: 'E_PASSWORD_WRONG',
-            name: 'passwordWrong',
-            message: 'Password salah'
-          }).toJSON()
-        )
-      }
-      let token = jwt.sign({
-        karyawan: _.pick(find, ['username', 'id'])
-      }, config.privateKey, _.omit(config, 'privateKey'))
+      if (_.isEmpty(karyawan)) return exits.badRequest(
+        ErrorSrv({
+          code: 'E_USERNAME_NOTFOUND',
+          name: 'usernameNotFound',
+          message: 'Username anda tidak ada'
+        })
+      )
+      let checkPass = await bcrypt.compare(password, karyawan.password)
+      if (!checkPass) return exits.badRequest(
+        ErrorSrv({
+          code: 'E_PASSWORD_WRONG',
+          name: 'passwordWrong',
+          message: 'Password anda salah'
+        })
+      )
+      let token = await JwtSrv.signin(_.pick(karyawan, ['id', 'username']))
       return exits.success({
         token
       })
     } catch (err) {
       err = ErrorSrv(err)
-      return exits.serverError(err.toJSON())
+      return exits.serverError(err)
     }
   }
 }

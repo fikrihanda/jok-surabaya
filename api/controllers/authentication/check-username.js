@@ -3,7 +3,8 @@ module.exports = {
   description: 'Authentication check username',
   inputs: {
     username: {
-      type: 'string'
+      type: 'string',
+      defaultsTo: ''
     }
   },
   exits: {
@@ -19,33 +20,30 @@ module.exports = {
   },
   fn: async function (inputs, exits) {
     try {
-      if (_.isEmpty(inputs.username)) {
-        return exits.badRequest(
-          ErrorSrv({
-            code: 'E_USERNAME_EMPTY',
-            name: 'usernameEmpty',
-            message: 'Username harus di isi'
-          }).toJSON()
-        )
-      }
-      let find = await Karyawan.find({
-        username: inputs.username
+      let {username} = inputs
+      if (_.isEmpty(username)) return exits.badRequest(
+        ErrorSrv({
+          code: 'E_USERNAME_EMPTY',
+          name: 'usernameEmpty',
+          message: 'Username anda tidak boleh kosong'
+        })
+      )
+      let karyawan = await Karyawan.find({
+        username: username
       }).intercept(err => ErrorSrv(err))
-      if (!_.isEmpty(find)) {
-        return exits.badRequest(
-          ErrorSrv({
-            code: 'E_USERNAME_FOUND',
-            name: 'usernameFound',
-            message: 'Username sudah ada'
-          }).toJSON()
-        )
-      }
+      if (!_.isEmpty(karyawan)) return exits.badRequest(
+        ErrorSrv({
+          code: 'E_USERNAME_FOUND',
+          name: 'usernameFound',
+          message: 'Username ini sudah ada'
+        })
+      )
       return exits.success({
         success: true
       })
     } catch (err) {
       err = ErrorSrv(err)
-      return exits.serverError(err.toJSON())
+      return exits.serverError(err)
     }
   }
 };

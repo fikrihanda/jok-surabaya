@@ -1,5 +1,5 @@
 <template>
-  <b-card no-body header="Setting">
+  <b-card no-body header="Setting" class="mb-3">
     <b-list-group flush>
       <b-list-group-item to="/setting">
         Info
