@@ -9,16 +9,18 @@ module.exports = async function (config) {
   let refiles = {}
   let err
   for (let key in files) {
-    let val = files[key]
-    try {
-      if (_.isFunction(val)) {
-        refiles[key] = await val()
-      } else {
-        refiles[key] = val
+    if (files.hasOwnProperty(key)) {
+      let val = files[key]
+      try {
+        if (_.isFunction(val)) {
+          refiles[key] = await val()
+        } else {
+          refiles[key] = val
+        }
+      } catch (e) {
+        err = ErrorSrv(e)
+        break
       }
-    } catch (e) {
-      err = ErrorSrv(e)
-      break
     }
   }
   if (!_.isEmpty(err)) return Promise.reject(err)

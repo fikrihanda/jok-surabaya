@@ -24,9 +24,9 @@ module.exports = {
       }).intercept(err => ErrorSrv(err))
       if (!_.isEmpty(karyawan)) return done(
         ErrorSrv({
-          code: 'E_USER_FOUND',
-          name: 'userFound',
-          message: 'Username sudah ada'
+          code: 'E_USERNAME_FOUND',
+          name: 'usernameFound',
+          message: 'Username ini sudah ada'
         })
       )
       valSet.password = await bcrypt.hash(valSet.password, 10)

@@ -11,6 +11,7 @@ module.exports = async function (sails, config) {
       let models = sails.models[key.toLowerCase()]
       let val = objFiles[key]
       try {
+        sails.log.info(`Create data seeder: ${key}`)
         if (_.isObject(val) && !_.isArray(val)) {
           return await models.create(val).intercept(err => ErrorSrv(err))
         } else {
