@@ -8,6 +8,15 @@ export default {
       return Promise.reject(err)
     }
   },
+  async register(data) {
+    let {$utils, $axios} = $nuxt
+    try {
+      return $axios.$post('/authentication/register', data)
+    } catch (err) {
+      err = $utils.error(err)
+      return Promise.reject(err)
+    }
+  },
   async checkUsername(data) {
     let {$utils, $axios} = $nuxt
     try {

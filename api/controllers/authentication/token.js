@@ -22,6 +22,15 @@ module.exports = {
   fn: async function (_inputs, exits) {
     let req = this.req
     try {
+      if (_.isEmpty(req.karyawan)) {
+        return exits.unauthorized(
+          ErrorSrv({
+            code: 'E_INVALID_TOKEN',
+            name: 'invalidToken',
+            message: 'Token anda salah atau token tidak ada'
+          })
+        )
+      }
       let karyawan = await Karyawan.findOne(req.karyawan)
         .populateAll()
         .intercept(err => ErrorSrv(err))
@@ -34,14 +43,14 @@ module.exports = {
           })
         )
       }
-      let data = find.data[0]
+      let data = karyawan.data[0]
       return exits.success({
         nama_awal: data.nama_awal,
         nama_akhir: data.nama_akhir,
         avatar: data.avatar,
         alamat: data.alamat,
         telepon: data.telepon,
-        roles: find.roles
+        roles: karyawan.roles
       })
     } catch (err) {
       err = ErrorSrv(err)

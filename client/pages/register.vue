@@ -149,8 +149,23 @@
     },
     methods: {
       async onSubmit() {
-        this.$v.$touch()
-        if (this.$v.$error) return
+        try {
+          this.$v.$touch()
+          if (this.$v.$error) return
+          await this.$store.dispatch('authentication/register', {
+            username: this.username,
+            password: this.password,
+            nama_awal: this.nama_awal,
+            nama_akhir: this.nama_akhir
+          })
+          this.$router.push('/')
+        } catch (err) {
+          this.$utils.notification({
+            title: 'Error',
+            type: 'error',
+            text: err.message
+          })
+        }
       }
     }
   }

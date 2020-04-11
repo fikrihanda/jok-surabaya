@@ -11,5 +11,6 @@
 module.exports.routes = {
   'POST /api/authentication/check-username': {action: 'authentication/check-username'},
   'POST /api/authentication/signin': {action: 'authentication/signin'},
+  'POST /api/authentication/register': {action: 'authentication/register'},
   'POST /api/authentication/token': {action: 'authentication/token'}
 };

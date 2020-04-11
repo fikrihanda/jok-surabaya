@@ -80,9 +80,9 @@
     },
     methods: {
       async onSubmit() {
-        this.$v.$touch()
-        if (this.$v.$error) return
         try {
+          this.$v.$touch()
+          if (this.$v.$error) return
           await this.$store.dispatch('authentication/signin', {
             username: this.username,
             password: this.password

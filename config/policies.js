@@ -20,5 +20,6 @@ module.exports.policies = {
   // '*': true,
   '*': 'verifyToken',
   'authentication/signin': true,
+  'authentication/register': true,
   'authentication/check-username': true
 };

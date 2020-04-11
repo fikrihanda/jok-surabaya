@@ -44,6 +44,10 @@ module.exports = {
         nama_awal,
         nama_akhir
       }).intercept(err => ErrorSrv(err))
+      let token = await JwtSrv.signin(_.pick(karyawan, ['id', 'username']))
+      return exits.success({
+        token
+      })
     } catch (err) {
       err = ErrorSrv(err)
       if (err.name === 'usernameFound') return exits.badRequest(err)

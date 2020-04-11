@@ -76,6 +76,16 @@ export const actions = {
       return Promise.reject(err)
     }
   },
+  async register({commit}, data) {
+    try {
+      let {token} = await Auth.register(data)
+      commit('setToken', token)
+      return Promise.resolve()
+    } catch (err) {
+      err = this.$utils.error(err)
+      return Promise.reject(err)
+    }
+  },
   async getInfo({commit}) {
     try {
       let info = await Auth.getInfo()

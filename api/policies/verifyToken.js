@@ -34,6 +34,7 @@ module.exports = async function (req, res, done) {
         message: 'Token anda salah atau token tidak ada'
       })
     )
+    req.karyawan = _.pick(karyawan, ['id', 'username'])
     return done()
   } catch (err) {
     err = ErrorSrv(err)
