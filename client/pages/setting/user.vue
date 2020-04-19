@@ -114,19 +114,19 @@
             password: this.password,
             method: 'user'
           })
-          this.resetField()
           this.$utils.notification({
             title: 'Success',
             type: 'success',
             text: 'Berhasil update password anda'
           })
+          this.$router.push('/setting')
         } catch (err) {
-          this.resetField()
           this.$utils.notification({
             title: 'Error',
             type: 'error',
             text: err.message
           })
+          this.$router.push('/setting')
         }
       }
     }

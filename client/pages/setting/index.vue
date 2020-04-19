@@ -10,10 +10,15 @@
         <th>Alamat</th>
         <td>{{karyawan.alamat || '-'}}</td>
       </tr>
-      <tr>
-        <th>Telepon</th>
-        <td>-</td>
-      </tr>
+      <template v-for="(v, i) in karyawan.telepon">
+        <tr v-if="i === 0">
+          <th :rowspan="karyawan.telepon.length">Telepon</th>
+          <td>{{v}}</td>
+        </tr>
+        <tr v-else>
+          <td>{{v}}</td>
+        </tr>
+      </template>
       <tr>
         <th>Roles</th>
         <td>{{karyawan.roles | capitalize}}</td>

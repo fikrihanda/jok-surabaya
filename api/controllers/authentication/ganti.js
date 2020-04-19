@@ -61,10 +61,19 @@ module.exports = {
         return exits.success({
           success: true
         })
-      } else if (method === 'data_diri') {
-
+      } else if (method === 'data-diri') {
+        let {nama_awal, nama_akhir, alamat, telepon} = inputs
+        await KaryawanData.updateOne({
+          karyawan: karyawan.id
+        }).set({
+          nama_awal, nama_akhir,
+          alamat, telepon
+        }).intercept(err => ErrorSrv(err))
+        return exits.success({
+          success: true
+        })
       } else {
-        return exits.serverError(
+        return exits.badRequest(
           ErrorSrv({
             code: 'E_METHOD_NOTFOUND',
             name: 'methodNotFound',

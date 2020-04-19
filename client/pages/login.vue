@@ -74,14 +74,14 @@
       validUsername() {
         let {username} = this.$v
         if (username.$dirty) {
-          return username.required
+          return !username.$error && username.required
         }
         return null
       },
       validPassword() {
         let {password} = this.$v
         if (password.$dirty) {
-          return password.required
+          return !password.$error && password.required
         }
         return null
       }
